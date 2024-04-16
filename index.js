@@ -4,6 +4,9 @@ const app = express();
 const express = require('express');
 const app = express();
 
+const bodyParser = require('body-parser');
+
+
 let topMovies = [
   {
     title: 'Titanic',
