@@ -6,7 +6,8 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
-
+// Serve static files from the "public" folder
+app.use(express.static('public'));
 
 let topMovies = [
   {
@@ -64,6 +65,11 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
+// No need for a separate route for documentation.html
+
+app.get('/movies', (req, res) => {
+  res.json(topMovies);
+});
 
 // listen for requests
 app.listen(8080, () => {
