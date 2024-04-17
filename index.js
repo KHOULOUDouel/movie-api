@@ -1,12 +1,8 @@
 const express = require('express');
-const app = express();
-
-const express = require('express');
-const app = express();
-
 const bodyParser = require('body-parser');
-
 const morgan = require('morgan');
+
+const app = express();
 
 // Use Morgan middleware to log all requests
 app.use(morgan('combined'));
@@ -59,18 +55,12 @@ let topMovies = [
 
 // GET requests
 app.get('/', (req, res) => {
-    res.send('Welcome to my movie club! Check out our top movies at /movies.');
-  });
+  res.send('Welcome to my movie club! Check out our top movies at /movies.');
+});
 
-app.get('/documentation', (req, res) => {                  
+app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
-
-app.get('/movies', (req, res) => {
-  res.json(topMovies);
-});
-
-// No need for a separate route for documentation.html
 
 app.get('/movies', (req, res) => {
   res.json(topMovies);
