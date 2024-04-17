@@ -6,6 +6,11 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
+const morgan = require('morgan');
+
+// Use Morgan middleware to log all requests
+app.use(morgan('combined'));
+
 // Serve static files from the "public" folder
 app.use(express.static('public'));
 
@@ -71,7 +76,14 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
 // listen for requests
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = 8080;
+app.listen(port, () => {
+  console.log(`Your app is listening on port ${port}.`);
 });
