@@ -10,5 +10,32 @@
     <p>
         This API provides access to a database of movies. Developers can use this API to search for movies, retrieve details about specific movies, and perform other related tasks.
     </p>
+    
+    <h2>Endpoints</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Request</th>
+                <th>URL</th>
+                <th>Description</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/movies</td>
+                <td>Retrieve a list of all movies</td>
+                <td>JSON array of movie objects</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/movies/:id</td>
+                <td>Retrieve details about a specific movie</td>
+                <td>JSON object representing the movie</td>
+            </tr>
+            <!-- Add more rows for other endpoints as needed -->
+        </tbody>
+    </table>
 </body>
 </html>
