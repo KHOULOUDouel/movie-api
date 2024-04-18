@@ -58,10 +58,12 @@ app.get('/', (req, res) => {
   res.send('Welcome to my movie club! Check out our top movies at /movies.');
 });
 
+// Endpoint for documentation
 app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
+// Endpoint for retrieving all movies
 app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
