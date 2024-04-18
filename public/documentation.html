@@ -21,7 +21,9 @@
                 <th>Request</th>
                 <th>URL</th>
                 <th>Method</th> <!-- Added method column -->
+                <th>Query Parameters</th>
                 <th>Description</th>
+                <th>Request Body Format</th>
                 <th>Response</th>
             </tr>
         </thead>
@@ -31,35 +33,45 @@
                 <td>GET</td>
                 <td>/movies</td>
                 <td>GET</td> <!-- Added GET method -->
+                <td>N/A</td>
                 <td>Retrieve a list of all movies</td>
+                <td>N/A</td>
                 <td>JSON array of movie objects</td>
             </tr>
             <tr>
                 <td>GET</td>
                 <td>/movies/:id</td>
-                <td>GET</td> <!-- Added GET method -->
+                <td>GET</td>
+                <td>Movie ID</td>
                 <td>Retrieve details about a specific movie</td>
+                <td>N/A</td>
                 <td>JSON object representing the movie</td>
             </tr>
             <tr>
-                <td>POST</td> <!-- Added POST method -->
+                <td>POST</td>
                 <td>/movies</td>
-                <td>POST</td> <!-- Added POST method -->
+                <td>POST</td>
+                <td>N/A</td>
                 <td>Add a new movie to the database</td>
+                <td>JSON object with movie data</td>
                 <td>JSON object representing the newly added movie</td>
             </tr>
             <tr>
-                <td>PUT</td> <!-- Added PUT method -->
+                <td>PUT</td>
                 <td>/movies/:id</td>
-                <td>PUT</td> <!-- Added PUT method -->
+                <td>PUT</td>
+                <td>Movie ID in URL</td>
                 <td>Update details of a specific movie</td>
+                <td>JSON object with updated movie data</td>
                 <td>JSON object representing the updated movie</td>
             </tr>
             <tr>
-                <td>DELETE</td> <!-- Added DELETE method -->
+                <td>DELETE</td>
                 <td>/movies/:id</td>
-                <td>DELETE</td> <!-- Added DELETE method -->
+                <td>DELETE</td>
+                <td>Movie ID</td>
                 <td>Delete a specific movie from the database</td>
+                <td>N/A</td>
                 <td>Success message indicating deletion</td>
             </tr>
         </tbody>
