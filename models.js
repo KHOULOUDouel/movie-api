@@ -22,3 +22,8 @@ const Movie = mongoose.model('Movie', movieSchema); // Movie model
 const User = mongoose.model('User', userSchema); // User model
 
 module.exports = { Movie, User }; // Export models
+
+const mongoose = require('mongoose');
+const { Movie, User } = require('./models'); // Adjust the path if necessary
+
+// Your application code here
