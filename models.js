@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 // Define the Movies schema
 const movieSchema = new mongoose.Schema({
   title: { type: String, required: true }, // Title of the movie
@@ -20,7 +22,3 @@ const Movie = mongoose.model("Movie", movieSchema); // Movie model
 const User = mongoose.model("User", userSchema); // User model
 
 module.exports = { Movie, User }; // Export models
-
-const mongoose = require("mongoose");
-
-// Your application code here
