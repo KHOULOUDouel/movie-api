@@ -1,0 +1,210 @@
+[{
+    "_id": {
+      "$oid": "64da8b8f294e93e04b32c053"
+    },
+    "Title": "The Fifth Element",
+    "Description": "In the colorful future, a cab driver unwittingly becomes the central figure in the search for a legendary cosmic weapon to keep Evil and Mr. Zorg at bay.",
+    "Genre": {
+      "Name": "Sci-fi",
+      "Description": "Science fiction (or sci-fi) is a film genre that uses speculative, fictional science-based depictions of phenomena that are not fully accepted by mainstream science, such as extraterrestrial lifeforms, spacecraft, robots, cyborgs, dinosaurs, mutants, interstellar travel, time travel, or other technologies. Science fiction films have often been used to focus on political or social issues, and to explore philosophical issues like the human condition."
+    },
+    "Director": {
+      "Name": "Luc Besson",
+      "Bio": "Luc Paul Maurice Besson (born 18 March 1959) is a French film director, screenwriter and producer. He directed or produced the films Subway (1985), The Big Blue (1988), and La Femme Nikita (1990). Associated with the Cinéma du look film movement, he has been nominated for a César Award for Best Director and Best Picture for his films Léon: The Professional (1994) and the English-language The Messenger: The Story of Joan of Arc (1999). He won Best Director and Best French Director for his sci-fi action film The Fifth Element (1997). He wrote and directed the 2014 sci-fi action film Lucy and the 2017 space opera film Valerian and the City of a Thousand Planets.",
+      "Birth": "1959",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BZWFjYmZmZGQtYzg4YS00ZGE5LTgwYzAtZmQwZjQ2NDliMGVmXkEyXkFqcGdeQXVyNTUyMzE4Mzg@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64da948941570066fdb83c6e"
+    },
+    "Title": "Groundhog Day",
+    "Description": "A narcissistic, self-centered weatherman finds himself in a time loop on Groundhog Day, and the day keeps repeating until he gets it right.",
+    "Genre": {
+      "Name": "Comedy",
+      "Description": "The comedy movie genre is a popular and diverse category of films that aim to entertain and amuse the audience through humor, wit, and comedic situations. Comedy films often exaggerate characters, situations, and events to create laughter and provide a lighthearted escape for viewers. There are various subgenres and styles within comedy, each with its own unique approach to humor."
+    },
+    "Director": {
+      "Name": "Harold Ramis",
+      "Bio": "Harold Allen Ramis (November 21, 1944 – February 24, 2014) was an American actor, comedian, director and writer. His best-known film acting roles were as Egon Spengler in Ghostbusters (1984) and Ghostbusters II (1989), and as Russell Ziskey in Stripes (1981); he also co-wrote those films. As a director, his films include the comedies Caddyshack (1980), National Lampoon''s Vacation (1983), Groundhog Day (1993), Analyze This (1999) and Analyze That (2002). Ramis was the original head writer of the television series SCTV, on which he also performed, as well as a co-writer of Groundhog Day and National Lampoon''s Animal House (1978). The final film that he wrote, produced, directed, and acted in was Year One (2009).",
+      "Birth": "1944",
+      "Death": "2014"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BZWIxNzM5YzQtY2FmMS00Yjc3LWI1ZjUtNGVjMjMzZTIxZTIxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64da9ac0f346d25dd33b9e2e"
+    },
+    "Title": "The Truman Show",
+    "Description": "An insurance salesman discovers his whole life is actually a reality TV show.",
+    "Genre": {
+      "Name": "Drama",
+      "Description": "The drama movie genre is one of the most versatile and widely appreciated genres in filmmaking. Drama films focus on realistic and emotional storytelling, often delving into complex human relationships, personal struggles, and societal issues. These films aim to evoke a range of emotions from the audience, including empathy, sadness, joy, and introspection."
+    },
+    "Director": {
+      "Name": "Peter Weir",
+      "Bio": "Peter Lindsay Weir AM (born August 21, 1944) is an Australian retired film director. He is known for directing films crossing various genres over forty years with films such as Picnic at Hanging Rock (1975), Gallipoli (1981), Witness (1985), Dead Poets Society (1989), Fearless (1993), The Truman Show (1998), Master and Commander: The Far Side of the World (2003), and The Way Back (2010). He has received six Academy Award nominations, ultimately being awarded the Academy Honorary Award in 2022 for his lifetime achievement career.",
+      "Birth": "1944",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BMDIzODcyY2EtMmY2MC00ZWVlLTgwMzAtMjQwOWUyNmJjNTYyXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_FMjpg_UX1000_.jpg",
+    "Featured": false
+  },
+  {
+    "_id": {
+      "$oid": "64daa854eb2a630f9010668d"
+    },
+    "Title": "Birdman",
+    "Description": "The film stars Michael Keaton as Riggan Thomson, a faded Hollywood actor best known for playing the superhero 'Birdman', as he struggles to mount a Broadway adaptation of Raymond Carver's short story, 'What We Talk About When We Talk About Love'.",
+    "Genre": {
+      "Name": "Romance",
+      "Description": "The romance movie genre is a film genre that focuses on the themes of love, passion, and emotional relationships between characters. These films typically revolve around a central romantic storyline and often explore the challenges, obstacles, and joys that come with romantic relationships. Romance movies can span various sub-genres and settings, including historical, contemporary, fantasy, comedy, drama, and more. The emotional depth and character development in romance movies make them popular among audiences who enjoy exploring the complexities of human relationships and the universal experience of love. Some classic examples of romance movies include 'Gone with the Wind', 'Casablanca', 'Pride and Prejudice', 'The Notebook', 'Titanic', and 'Romeo and Juliet'."
+    },
+    "Director": {
+      "Name": "Alejandro González Iñárritu",
+      "Bio": "Alejandro González Iñárritu is a Mexican filmmaker. He is primarily known for making modern psychological drama films about the human condition. His projects have garnered critical acclaim and numerous accolades including four Academy Awards with a Special Achievement Award, three Golden Globe Awards, three BAFTA Awards, two Directors Guild of America Awards. His most notable films include Amores perros (2000), 21 Grams (2003), Babel (2006), Biutiful (2010), Birdman (2014), The Revenant (2015), and Bardo (2022).",
+      "Birth": "1963",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BODAzNDMxMzAxOV5BMl5BanBnXkFtZTgwMDMxMjA4MjE@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64daaa20eb2a630f9010668e"
+    },
+    "Title": "My Neighbor Totoro",
+    "Description": "When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.",
+    "Genre": {
+      "Name": "Fantasy",
+      "Description": "The fantasy movie genre encompasses films that are set in imaginative and often magical worlds, featuring elements such as mythical creatures, supernatural powers, epic quests, and enchanting landscapes. These movies transport viewers to realms where reality is altered and the impossible becomes possible. Fantasy films often explore themes of heroism, good versus evil, personal growth, and the triumph of imagination."
+    },
+    "Director": {
+      "Name": "Hayao Miyazaki",
+      "Bio": "Hayao Miyazaki (born January 5, 1941) is a Japanese animator, filmmaker, and manga artist. A co-founder of Studio Ghibli, he has attained international acclaim as a masterful storyteller and creator of Japanese animated feature films, and is widely regarded as one of the most accomplished filmmakers in the history of animation.",
+      "Birth": "1941",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BYzJjMTYyMjQtZDI0My00ZjE2LTkyNGYtOTllNGQxNDMyZjE0XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg",
+    "Featured": false
+  },
+  {
+    "_id": {
+      "$oid": "64daabefeb2a630f90106690"
+    },
+    "Title": "The Lives of Others",
+    "Description": "In 1984 East Berlin, an agent of the secret police, conducting surveillance on a writer and his lover, finds himself becoming increasingly absorbed by their lives.",
+    "Genre": {
+      "Name": "Thriller",
+      "Description": "The thriller movie genre is a popular and diverse category of films that often focus on creating suspense, tension, and excitement through intriguing plots, unexpected twists, and intense characters. Thrillers can span various subgenres and themes, including crime, mystery, psychological drama, action, and horror."
+    },
+    "Director": {
+      "Name": "Florian Henckel von Donnersmarck",
+      "Bio": "Florian Maria Georg Christian Graf Henckel von Donnersmarck (born 2 May 1973) is an Academy Award-winning German and Austrian film director. He is best known for writing and directing the 2006 dramatic thriller Das Leben der Anderen (The Lives of Others), the 2010 romantic thriller The Tourist starring Angelina Jolie and Johnny Depp, and the 2018 epic drama Never Look Away.",
+      "Birth": "1973",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BNmQyNmJjM2ItNTQzYi00ZjMxLWFjMDYtZjUyN2YwZDk5YWQ2XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UX1000_.jpg",
+    "Featured": false
+  },
+  {
+    "_id": {
+      "$oid": "64db5d35b9b61cd4d7136210"
+    },
+    "Title": "Turner & Hooch",
+    "Description": "A detective must adopt a rambunctious dog in order to help him find a killer.",
+    "Genre": {
+      "Name": "Comedy",
+      "Description": "The comedy movie genre is a popular and diverse category of films that aim to entertain and amuse the audience through humor, wit, and comedic situations. Comedy films often exaggerate characters, situations, and events to create laughter and provide a lighthearted escape for viewers. There are various subgenres and styles within comedy, each with its own unique approach to humor."
+    },
+    "Director": {
+      "Name": "Roger Spottiswoode",
+      "Bio": "John Roger Spottiswoode (born 5 January 1945) is a Canadian-British director, editor and writer of film and television.",
+      "Birth": "1945",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BMGYxNjdjMTItMmUwYy00NzNhLTk1NjctZWVkZTMzZTYzNjBmXkEyXkFqcGdeQXVyNzc5MjA3OA@@._V1_FMjpg_UX1000_.jpg",
+    "Featured": false
+  },
+  {
+    "_id": {
+      "$oid": "64db5f13b9b61cd4d7136211"
+    },
+    "Title": "Close Encounters of the Third Kind",
+    "Description": "Roy Neary, an Indiana electric lineman, finds his quiet and ordinary daily life turned upside down after a close encounter with a UFO, spurring him to an obsessed cross-country quest for answers as a momentous event approaches.",
+    "Genre": {
+      "Name": "Sci-fi",
+      "Description": "Science fiction (or sci-fi) is a film genre that uses speculative, fictional science-based depictions of phenomena that are not fully accepted by mainstream science, such as extraterrestrial lifeforms, spacecraft, robots, cyborgs, dinosaurs, mutants, interstellar travel, time travel, or other technologies. Science fiction films have often been used to focus on political or social issues, and to explore philosophical issues like the human condition."
+    },
+    "Director": {
+      "Name": "Steven Spielberg",
+      "Bio": "Steven Allan Spielberg KBE (born December 18, 1946) is an American film director, producer and screenwriter. A major figure of the New Hollywood era and pioneer of the modern blockbuster, he is the most commercially successful director in history. He is the recipient of many accolades, including three Academy Awards, two BAFTA Awards, and four Directors Guild of America Awards, as well as the AFI Life Achievement Award in 1995, the Kennedy Center Honor in 2006, the Cecil B. DeMille Award in 2009 and the Presidential Medal of Freedom in 2015. Seven of his films have been inducted into the National Film Registry by the Library of Congress as 'culturally, historically or aesthetically significant'.",
+      "Birth": "1946",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BMjM1NjE5NjQxN15BMl5BanBnXkFtZTgwMjYzMzQxMDE@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64db606ab9b61cd4d7136212"
+    },
+    "Title": "The Terminator",
+    "Description": "A human soldier is sent from 2029 to 1984 to stop an almost indestructible cyborg killing machine, sent from the same year, which has been programmed to execute a young woman whose unborn son is the key to humanity''s future salvation.",
+    "Genre": {
+      "Name": "Sci-fi",
+      "Description": "Science fiction (or sci-fi) is a film genre that uses speculative, fictional science-based depictions of phenomena that are not fully accepted by mainstream science, such as extraterrestrial lifeforms, spacecraft, robots, cyborgs, dinosaurs, mutants, interstellar travel, time travel, or other technologies. Science fiction films have often been used to focus on political or social issues, and to explore philosophical issues like the human condition."
+    },
+    "Director": {
+      "Name": "James Cameron",
+      "Bio": "James Francis Cameron CC (born August 16, 1954) is a Canadian filmmaker. A major figure in the post-New Hollywood era, Cameron is considered one of the industry''s most innovative filmmakers, regularly making use of novel technologies. He first gained recognition for writing and directing The Terminator (1984) and found further success with Aliens (1986), The Abyss (1989), Terminator 2: Judgment Day (1991), and the action comedy True Lies (1994). He wrote and directed Titanic (1997), Avatar (2009) and its sequels, with Titanic earning him Academy Awards for Best Picture, Best Director, and Best Film Editing. A recipient of various other industry accolades, two of his films have been selected for preservation in the National Film Registry by the Library of Congress.",
+      "Birth": "1954",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BYTViNzMxZjEtZGEwNy00MDNiLWIzNGQtZDY2MjQ1OWViZjFmXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64db618cb9b61cd4d7136213"
+    },
+    "Title": "Point Break",
+    "Description": "An F.B.I. Agent goes undercover to catch a gang of surfers who may be bank robbers.",
+    "Genre": {
+      "Name": "Action",
+      "Description": "The action movie genre is a film genre characterized by intense physical activity, often involving feats of daring, adrenaline-pumping stunts, and explosive sequences. Action movies typically feature protagonists who are skilled fighters, adventurers, or law enforcement officers, and they often face dangerous villains or antagonistic forces. These films are known for their high-energy sequences, including car chases, gunfights, hand-to-hand combat, and daring escapes."
+    },
+    "Director": {
+      "Name": "Kathryn Bigelow",
+      "Bio": "Kathryn Ann Bigelow (born November 27, 1951) is an American filmmaker. Covering a wide range of genres, her films include Near Dark (1987), Point Break (1991), Strange Days (1995), K-19: The Widowmaker (2002), The Hurt Locker (2008), Zero Dark Thirty (2012), and Detroit (2017).",
+      "Birth": "1951",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BNWVjZWFmYjItZGJlOC00YTllLWE4YjctMWY2ZTg5ZjE0MDIyXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  },
+  {
+    "_id": {
+      "$oid": "64db62f0b9b61cd4d7136214"
+    },
+    "Title": "21 Grams",
+    "Description": "A freak accident brings together a critically ill mathematician, a grieving mother, and a born-again ex-con.",
+    "Genre": {
+      "Name": "Drama",
+      "Description": "The drama movie genre is one of the most versatile and widely appreciated genres in filmmaking. Drama films focus on realistic and emotional storytelling, often delving into complex human relationships, personal struggles, and societal issues. These films aim to evoke a range of emotions from the audience, including empathy, sadness, joy, and introspection."
+    },
+    "Director": {
+      "Name": "Alejandro González Iñárritu",
+      "Bio": "Alejandro González Iñárritu is a Mexican filmmaker. He is primarily known for making modern psychological drama films about the human condition. His projects have garnered critical acclaim and numerous accolades including four Academy Awards with a Special Achievement Award, three Golden Globe Awards, three BAFTA Awards, two Directors Guild of America Awards. His most notable films include Amores perros (2000), 21 Grams (2003), Babel (2006), Biutiful (2010), Birdman (2014), The Revenant (2015), and Bardo (2022).",
+      "Birth": "1963",
+      "Death": "-"
+    },
+    "ImagePath": "https://m.media-amazon.com/images/M/MV5BMjA4MjI2OTM5N15BMl5BanBnXkFtZTcwNDA1NjUzMw@@._V1_FMjpg_UX1000_.jpg",
+    "Featured": true
+  }]
+  
