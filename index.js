@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { Movie, User } = require('./models'); // Importing Mongoose models
+const models = require('./models'); // Importing Mongoose models
+
+const Movies = models.Movie;
+const Users = models.User;
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,8 +18,8 @@ mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useU
 app.get('/movies', async (req, res) => {
     try {
         // Retrieve all movies from the database
-        const movies = await Movie.find();
-        
+        const movies = await Movies.find();
+
         // Return the list of movies as JSON response
         res.json(movies);
     } catch (err) {
@@ -26,17 +29,16 @@ app.get('/movies', async (req, res) => {
 });
 
 // GET a single movie by title
-app.get('/movies/:title', async (req, res) => {
-    const title = req.params.title;
+app.get('/movies/:Title', async (req, res) => {
+    const Title = req.params.Title;
 
     try {
-        // Find the movie in the database by its title
-        const movie = await Movie.findOne({ title });
+        // Find the movie in the database by its Title
+        const movie = await Movies.findOne({ Title });
 
         // If the movie is found, return its data
         if (movie) {
-            const { title, genre, director, releaseYear, rating, additionalAttributes } = movie;
-            res.json({ title, genre, director, releaseYear, rating, additionalAttributes });
+            return res.json(movie)
         } else {
             // If the movie is not found, send a 404 status code and a message
             res.status(404).json({ message: 'Movie not found' });
@@ -47,149 +49,156 @@ app.get('/movies/:title', async (req, res) => {
     }
 });
 
-// POST a new movie
-app.post('/movies', async (req, res) => {
-    const movie = new Movie({
-        title: req.body.title,
-        genre: req.body.genre,
-        director: req.body.director,
-        releaseYear: req.body.releaseYear,
-        rating: req.body.rating,
-        additionalAttributes: req.body.additionalAttributes
-    });
-
+// GET data about a Genre by name
+app.get('/movies/genre/:Name', async (req, res) => {
     try {
-        const newMovie = await movie.save();
-        res.status(201).json(newMovie);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+        const movie = await Movies.findOne({ 'Genre.Name': req.params.Name });
+        if (movie && movie.Genre) {
+            // Extract and return only the genre's information
+            const genre = {
+                Name: movie.Genre.Name,
+                Description: movie.Genre.Description
+            }
+            return res.json(genre)
+        } else {
+            res.status(404).json({ message: 'Genre not found' })
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET data about a director (Name, Bio, Birth, Death) by name
+app.get('/movies/Director/:Name', async (req, res) => {
+    try {
+        // Search for a movie with the specified director
+        const movie = await Movies.findOne({ 'Director.Name': req.params.Name });
+
+        if (movie && movie.Director) {
+            // Extract and return only the director's information
+            const directorInfo = {
+                Name: movie.Director.Name,
+                Bio: movie.Director.Bio,
+                Birth: movie.Director.Birth,
+                Death: movie.Director.Death
+            };
+            return res.json(directorInfo);
+        } else {
+            res.status(404).json({ message: 'Genre not found' })
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: err.message });
     }
 });
 
 // GET all users
 app.get('/users', async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await Users.find();
         res.json(users);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// POST a new user
-app.post('/users', async (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        favoriteMovies: req.body.favoriteMovies
-    });
-
-    try {
-        const newUser = await user.save();
-        res.status(201).json(newUser);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
-// POST route to register a new user
-app.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
-
-    try {
-        // Check if the email is already registered
-        const existingUser = await User.findOne({ email });
-
-        if (existingUser) {
-            return res.status(400).json({ message: 'Email already registered' });
-        }
-
-        // Create a new user
-        const newUser = new User({ username, email, password });
-
-        // Save the new user to the database
-        await newUser.save();
-
-        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
+// POST a new user
+app.post('/users', async (req, res) => {
+    const { Username, Password, Email, Birthday } = req.body;
+    try {
+
+        const user = await Users.findOne({ Username });
+
+        // Check if a user already exists
+        if (user) {
+            return res.status(400).json({ message: Username + 'already exists' });
+        }
+
+        const newUser = await Users.create({
+            Username,
+            Password,
+            Email,
+            Birthday,
+        })
+
+        res.status(201).json(newUser);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// GET a user by username
+app.get('/users/:Username', async (req, res) => {
+    try {
+        const user = await Users.findOne({ Username: req.params.Username });
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // POST route to add a movie to user's favorites
-app.post('/users/:userId/favorites', async (req, res) => {
-    const userId = req.params.userId;
-    const { movieId } = req.body;
+app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+    const { Username, MovieID } = req.params;
 
     try {
-        // Find the user by ID
-        let user = await User.findById(userId);
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+        const updatedUser = await Users.findOneAndUpdate(
+            { Username },
+            { $push: { FavoriteMovies: MovieID } },
+            { new: true } // This line ensures that the updated document is returned
+        );
+
+        if (updatedUser) {
+            res.json(updatedUser);
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
-
-        // Check if the movie already exists in user's favorites
-        if (user.favoriteMovies.includes(movieId)) {
-            return res.status(400).json({ message: 'Movie already in favorites' });
-        }
-
-        // Add the movie to user's favorites
-        user.favoriteMovies.push(movieId);
-
-        // Save the updated user
-        await user.save();
-
-        res.json({ message: 'Movie added to favorites successfully', user });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 // DELETE route to remove a movie from user's favorites
-app.delete('/users/:userId/favorites/:movieId', async (req, res) => {
-    const userId = req.params.userId;
-    const movieId = req.params.movieId;
+app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+    const { Username, MovieID } = req.params;
 
     try {
-        // Find the user by ID
-        let user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Check if the movie exists in user's favorites
-        if (!user.favoriteMovies.includes(movieId)) {
-            return res.status(400).json({ message: 'Movie not found in favorites' });
-        }
-
         // Remove the movie from user's favorites
-        user.favoriteMovies = user.favoriteMovies.filter(id => id.toString() !== movieId);
+        const updatedUser = await Users.findOneAndUpdate(
+            { Username },
+            { $pull: { FavoriteMovies: MovieID } },
+            { new: true } // This line ensures that the updated document is returned
+        );
 
-        // Save the updated user
-        await user.save();
-
-        res.json({ message: 'Movie removed from favorites successfully', user });
+        if (updatedUser) {
+            res.json(updatedUser);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 // DELETE route to deregister a user
-app.delete('/users/:userId', async (req, res) => {
-    const userId = req.params.userId;
+app.delete('/users/:Username', async (req, res) => {
+    const { Username } = req.params;
 
     try {
-        // Find the user by ID
-        const user = await User.findById(userId);
+        // Delete the user from the database
+        const user = await Users.findOneAndDelete({ Username });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-        // Delete the user from the database
-        await User.findByIdAndDelete(userId);
 
         res.json({ message: 'User deregistered successfully', user });
     } catch (error) {
