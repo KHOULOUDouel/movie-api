@@ -9,7 +9,7 @@ async function populateMovies() {
     try {
         await client.connect(); // Connect to the MongoDB server
 
-        const database = client.db('movieDB'); // Access the target database
+        const database = client.db('cfDB'); // Access the target database
         const collection = database.collection('Movies'); // Access the Movies collection
 
         // Sample movie data

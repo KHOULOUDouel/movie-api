@@ -30,11 +30,11 @@ app.get('/movies', async (req, res) => {
 
 // GET a single movie by title
 app.get('/movies/:Title', async (req, res) => {
-    const Title = req.params.Title;
+    const title = req.params.Title;
 
     try {
         // Find the movie in the database by its Title
-        const movie = await Movies.findOne({ Title });
+        const movie = await Movies.findOne({ Title: title });
 
         // If the movie is found, return its data
         if (movie) {
