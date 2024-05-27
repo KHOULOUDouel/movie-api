@@ -21,8 +21,11 @@ require('./passport');
 // Require and import auth.js file passing the Express app as an argument
 let auth = require('./auth')(app);
 
-// GET all movies
-app.get('/movies', async (req, res) => {
+// Middleware for JWT authentication
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+// GET all movies (Protected route)
+app.get('/movies', jwtAuth, async (req, res) => {
     try {
         // Retrieve all movies from the database
         const movies = await Movies.find();
@@ -36,7 +39,7 @@ app.get('/movies', async (req, res) => {
 });
 
 // GET a single movie by title
-app.get('/movies/:Title', async (req, res) => {
+app.get('/movies/:Title', jwtAuth, async (req, res) => {
     const title = req.params.Title;
 
     try {
@@ -57,7 +60,7 @@ app.get('/movies/:Title', async (req, res) => {
 });
 
 // GET data about a Genre by name
-app.get('/movies/genre/:Name', async (req, res) => {
+app.get('/movies/genre/:Name', jwtAuth, async (req, res) => {
     try {
         const movie = await Movies.findOne({ 'Genre.Name': req.params.Name });
         if (movie && movie.Genre) {
@@ -77,7 +80,7 @@ app.get('/movies/genre/:Name', async (req, res) => {
 });
 
 // GET data about a director (Name, Bio, Birth, Death) by name
-app.get('/movies/Director/:Name', async (req, res) => {
+app.get('/movies/director/:Name', jwtAuth, async (req, res) => {
     try {
         // Search for a movie with the specified director
         const movie = await Movies.findOne({ 'Director.Name': req.params.Name });
@@ -101,7 +104,7 @@ app.get('/movies/Director/:Name', async (req, res) => {
 });
 
 // GET all users
-app.get('/users', async (req, res) => {
+app.get('/users', jwtAuth, async (req, res) => {
     try {
         const users = await Users.find();
         res.json(users);
@@ -136,7 +139,7 @@ app.post('/users', async (req, res) => {
 });
 
 // GET a user by username
-app.get('/users/:Username', async (req, res) => {
+app.get('/users/:Username', jwtAuth, async (req, res) => {
     try {
         const user = await Users.findOne({ Username: req.params.Username });
         if (user) {
@@ -152,7 +155,7 @@ app.get('/users/:Username', async (req, res) => {
 
 
 // POST route to add a movie to user's favorites
-app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -174,7 +177,7 @@ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
 });
 
 // DELETE route to remove a movie from user's favorites
-app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -196,7 +199,7 @@ app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
 });
 
 // DELETE route to deregister a user
-app.delete('/users/:Username', async (req, res) => {
+app.delete('/users/:Username', jwtAuth, async (req, res) => {
     const { Username } = req.params;
 
     try {
