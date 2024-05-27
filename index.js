@@ -14,6 +14,13 @@ mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useU
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
+    // Importing passport module and configuration
+const passport = require('passport');
+require('./passport');
+
+// Require and import auth.js file passing the Express app as an argument
+let auth = require('./auth')(app);
+
 // GET all movies
 app.get('/movies', async (req, res) => {
     try {
