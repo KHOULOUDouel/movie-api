@@ -1,37 +1,42 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-// Define the Movies schema
+const userSchema = new mongoose.Schema({
+  Username: { type: String, required: true },
+  Password: { type: String, required: true },
+  Email: { type: String, required: true },
+  Birthday: Date,
+  FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+});
+
+userSchema.statics.hashPassword = function(password) {
+  return bcrypt.hashSync(password, 10);
+};
+
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.Password);
+};
+
+const User = mongoose.model('User', userSchema);
+
 const movieSchema = new mongoose.Schema({
-  Title: { type: String, required: true }, // Title of the movie
-  Description: { type: String, required: true }, // Description of the movie
-  // Genre of the movie
+  Title: { type: String, required: true },
+  Description: { type: String, required: true },
   Genre: {
     Name: String,
     Description: String
   },
-  // Director of the movie
   Director: {
     Name: String,
     Bio: String,
-    Birth: String,
-    Death: String
+    Birth: Date,
+    Death: Date
   },
-  // Link to the movie image
+  Actors: [String],
   ImagePath: String,
-  Featured: Boolean,
+  Featured: Boolean
 });
 
-// Define the Users schema
-const userSchema = new mongoose.Schema({
-  Username: { type: String, required: true }, // Username of the user
-  Password: { type: String, required: true }, // Password of the user
-  Email: { type: String, required: true }, // Email of the user
-  Birthday: Date, // Birthday of the user
-  FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }], // Array of favorite movies for the user
-});
+const Movie = mongoose.model('Movie', movieSchema);
 
-// Create models based on the schemas
-const Movie = mongoose.model("Movie", movieSchema); // Movie model
-const User = mongoose.model("User", userSchema); // User model
-
-module.exports = { Movie, User }; // Export models
+module.exports = { User, Movie };
