@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { body, validationResult } = require('express-validator');
 const cors = require('cors');
 const models = require('./models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('./passport');
 
 const { User, Movie } = models;
@@ -30,6 +32,47 @@ app.use(cors({
 mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
+
+  // POST route for user registration with data validation
+app.post('/users', [
+    // Validate username
+    body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
+  
+    // Validate password
+    body('Password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+  
+    // Validate email
+    body('Email').isEmail().withMessage('Invalid email'),
+  
+    // Validate birthday
+    body('Birthday').isISO8601().withMessage('Invalid date format (YYYY-MM-DD)'),
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    // If validation passes, proceed with user creation
+    const { Username, Password, Email, Birthday } = req.body;
+    try {
+      const existingUser = await User.findOne({ Username });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+  
+      const hashedPassword = await bcrypt.hash(Password, 10);
+      const newUser = await User.create({
+        Username,
+        Password: hashedPassword,
+        Email,
+        Birthday,
+      });
+  
+      res.status(201).json(newUser);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
 
 // Require and import auth.js file passing the Express app as an argument
 let auth = require('./auth')(app);
