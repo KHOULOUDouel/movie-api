@@ -38,7 +38,7 @@ app.use(cors({
 }));
 
 // Connect to MongoDB database
-mongoose.connect('mongodb+srv://khouloudouelhazi24:<Khouloud14>@myflixcluster.7ekdmro.mongodb.net/?retryWrites=true&w=majority&appName=myFlixCluster', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://khouloudouelhazi24:<Khouloud14>@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
