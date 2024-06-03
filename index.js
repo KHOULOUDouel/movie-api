@@ -14,6 +14,15 @@ const { User, Movie } = models;
 const app = express();
 app.use(bodyParser.json());
 
+const uri = 'mongodb+srv://<username>:<password>@<cluster-url>/<dbname>?retryWrites=true&w=majority';
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Connected to MongoDB Atlas');
+});
+
 // CORS configuration allowing specific origins
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
@@ -29,7 +38,7 @@ app.use(cors({
 }));
 
 // Connect to MongoDB database
-mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://khouloudouelhazi24:<Khouloud14>@myflixcluster.7ekdmro.mongodb.net/?retryWrites=true&w=majority&appName=myFlixCluster', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
