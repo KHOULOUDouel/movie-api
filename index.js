@@ -14,8 +14,12 @@ const { User, Movie } = models;
 const app = express();
 app.use(bodyParser.json());
 
-const uri = 'mongodb+srv://<username>:<password>@<cluster-url>/<dbname>?retryWrites=true&w=majority';
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// Connect to MongoDB database
+const dbURI = process.env.DATABASE_URI || 'mongodb://localhost:27017/myFlixDB';
+
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -37,10 +41,7 @@ app.use(cors({
   }
 }));
 
-// Connect to MongoDB database
-mongoose.connect('mongodb+srv://khouloudouelhazi24:<Khouloud14>@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
+
 
   // POST route for user registration with data validation
 app.post('/users', [
