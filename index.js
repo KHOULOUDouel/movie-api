@@ -27,14 +27,8 @@ db.once('open', function () {
     console.log('Connected to MongoDB Atlas');
 });
 
-// Require and import auth.js file passing the Express app as an argument
-let auth = require('./auth')(app);
-
-// Middleware for JWT authentication
-const jwtAuth = passport.authenticate('jwt', { session: false });
-
 // CORS configuration allowing specific origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -47,7 +41,11 @@ app.use(cors({
     }
 }));
 
+// Require and import auth.js file passing the Express app as an argument
+let auth = require('./auth')(app);
 
+// Middleware for JWT authentication
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // POST route for user registration with data validation
 app.post('/users', [
@@ -89,8 +87,6 @@ app.post('/users', [
         res.status(400).json({ error: err.message });
     }
 });
-
-
 
 // GET all movies (Protected route)
 app.get('/movies', jwtAuth, async (req, res) => {
