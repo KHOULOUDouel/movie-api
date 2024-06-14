@@ -1,106 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Documentation Page</title>
 </head>
+
 <body>
-    <!-- Header section -->
-    <h1>Welcome to the Movie API Documentation</h1>
-    <p>
-        This API provides access to a database of movies. Developers can use this API to search for movies, retrieve details about specific movies, and perform other related tasks.
-    </p>
+    <h1 class="page-title">DOCUMENTATION PAGE</h1>
+    <br>
+    <div>
+        <h3>Introduction</h3>
+        <p>Welcome to the User Management API documentation! This API is designed to help developers efficiently manage user data through basic CRUD (Create, Read, Update, Delete) operations. With our API, you can add new users, retrieve user details, update user information, and remove users from the system. Each user is uniquely identified by an ID and includes details like name and a list of favorite movies.</p>
+        <h3>Features</h3>
+        <ul>
+            <li>Create a New User: Add a new user to the database.</li>
+            <li>Retrieve Users: Get a list of all users or a specific user by ID.</li>
+            <li>Update User Information: Modify the details of an existing user.</li>
+            <li>Delete a User: Remove a user from the database.</li>
+        </ul>
+    </div>
     
-    <!-- Endpoints section -->
-    <h2>Endpoints</h2>
-    <!-- Table displaying endpoint information -->
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <!-- Table headers -->
-                <th>Request</th>
+                <th>Business Logic</th>
                 <th>URL</th>
-                <th>Method</th>
-                <th>Query Parameters</th>
-                <th>Description</th>
-                <th>Request Body Format</th>
-                <th>Response Format</th>
+                <th>HTTP Method</th>
+                <th>Request Body Data Format</th>
+                <th>Response Body Data Format</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Table rows for each endpoint -->
-            <!-- Row for GET /movies endpoint -->
             <tr>
-                <td>GET</td> <!-- Request method -->
-                <td>/movies</td> <!-- Endpoint URL -->
-                <td>GET</td> <!-- HTTP method -->
-                <td>N/A</td> <!-- No query parameters -->
-                <td>Retrieve a list of all movies</td> <!-- Description -->
-                <td>N/A</td> <!-- No request body -->
-                <td>JSON array of movie objects</td> <!-- Response format -->
-            </tr>
-            <!-- Row for GET /movies/:id endpoint -->
-            <tr>
-                <td>GET</td>
-                <td>/movies/:id</td>
-                <td>GET</td>
-                <td>Movie ID</td>
-                <td>Retrieve details about a specific movie</td>
-                <td>N/A</td>
-                <td>JSON object representing the movie</td>
-            </tr>
-            <!-- Row for POST /movies endpoint -->
-            <tr>
+                <td>Create New User</td>
+                <td>/users</td>
                 <td>POST</td>
+                <td>None</td>
+                <td>A JSON object with the user's information or "Users need names".</td>
+            </tr>
+            <tr>
+                <td>Update User Info</td>
+                <td>/users/:Username</td>
+                <td>PUT</td>
+                <td>A JSON object with the user's updated information. For example: {"name": Updated Name} </td>
+                <td>A JSON object with the user's updated information or "No user found.".</td>
+            </tr>
+            <tr>
+                <td>Add Movie to List of Favorites</td>
+                <td>/users/:Username/movies/:MovieID</td>
+                <td>POST</td>
+                <td>None</td>
+                <td>A message saying "${movieTitle} has been added to user ${id}'s array." OR "No user found.".</td>
+            </tr>
+            <tr>
+                <td>Remove Movie to List of Favorites</td>
+                <td>/users/:Username/movies/:MovieID</td>
+                <td>DELETE</td>
+                <td>None</td>
+                <td>A message saying "${movieTitle} has been removed from user ${id}'s array." OR "No user found.".</td>
+            </tr>
+            <tr>
+                <td>Allow Users to De-Register</td>
+                <td>/users/:Username</td>
+                <td>DELETE</td>
+                <td>None</td>
+                <td>A message saying "User ${id} has been deleted." OR "No user found.".</td>
+            </tr>
+            <tr>
+                <td>Get All Movies</td>
                 <td>/movies</td>
-                <td>POST</td>
-                <td>N/A</td>
-                <td>Add a new movie to the database</td>
-                <td>JSON object with movie data</td>
-                <td>JSON object representing the newly added movie</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object with data of all the movies.</td>
             </tr>
-            <!-- Row for PUT /movies/:id endpoint -->
             <tr>
-                <td>PUT</td>
-                <td>/movies/:id</td>
-                <td>PUT</td>
-                <td>Movie ID in URL</td>
-                <td>Update details of a specific movie</td>
-                <td>JSON object with updated movie data</td>
-                <td>JSON object representing the updated movie</td>
+                <td>Get Data Of A Single Movie By Title</td>
+                <td>/movies/:Title</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object with data about the movie OR the message "Movie not found!".</td>
             </tr>
-            <!-- Row for DELETE /movies/:id endpoint -->
             <tr>
-                <td>DELETE</td>
-                <td>/movies/:id</td>
-                <td>DELETE</td>
-                <td>Movie ID</td>
-                <td>Delete a specific movie from the database</td>
-                <td>N/A</td>
-                <td>Success message indicating deletion</td>
+                <td>Get Data Of A Genre By Genre Name</td>
+                <td>/movies/genres/:genreName</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object with data about the genre OR the message "Genre not found!".</td>
             </tr>
-            <!-- Row for PUT /users/:id endpoint -->
             <tr>
-                <td>PUT</td>
-                <td>/users/:id</td>
-                <td>PUT</td>
-                <td>User ID in URL</td>
-                <td>Update user info</td>
-                <td>
-                    JSON object with data to be updated:
-                    <pre>
-{
-    "username": "new_username",
-    "email": "new_email@example.com",
-    "favoriteMovies": ["movieId1", "movieId2"]
-}
-                    </pre>
-                </td>
-                <td>JSON object representing the updated user</td>
+                <td>Get Data Of A Director By Their Name</td>
+                <td>/movies/directors/:directorName</td>
+                <td>GET</td>
+                <td>None</td>
+                <td>A JSON object with data about the Director OR the message "Director not found!".</td>
             </tr>
-            <!-- Add more rows for other endpoints as needed -->
         </tbody>
     </table>
+
 </body>
+
 </html>

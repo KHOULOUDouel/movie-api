@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, check } = require('express-validator');
 const cors = require('cors');
 const models = require('./models');
 const passport = require('passport');
@@ -41,54 +41,52 @@ app.use(cors({
   }
 }));
 
-
-
-  // POST route for user registration with data validation
+// POST route for user registration with data validation
 app.post('/users', [
-    // Validate username
-    body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
-  
-    // Validate password
-    body('Password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-  
-    // Validate email
-    body('Email').isEmail().withMessage('Invalid email'),
-  
-    // Validate birthday
-    body('Birthday').isISO8601().withMessage('Invalid date format (YYYY-MM-DD)'),
-  ], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+  // Validate username
+  body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
+
+  // Validate password
+  body('Password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+
+  // Validate email
+  body('Email').isEmail().withMessage('Invalid email'),
+
+  // Validate birthday
+  body('Birthday').isISO8601().withMessage('Invalid date format (YYYY-MM-DD)'),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // If validation passes, proceed with user creation
+  const { Username, Password, Email, Birthday } = req.body;
+  try {
+    const existingUser = await User.findOne({ Username });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' });
     }
-  
-    // If validation passes, proceed with user creation
-    const { Username, Password, Email, Birthday } = req.body;
-    try {
-      const existingUser = await User.findOne({ Username });
-      if (existingUser) {
-        return res.status(400).json({ message: 'Username already exists' });
-      }
-  
-      const hashedPassword = await bcrypt.hash(Password, 10);
-      const newUser = await User.create({
-        Username,
-        Password: hashedPassword,
-        Email,
-        Birthday,
-      });
-  
-      res.status(201).json(newUser);
-    } catch (err) {
-      res.status(400).json({ error: err.message });
-    }
-  });
+
+    const hashedPassword = await bcrypt.hash(Password, 10);
+    const newUser = await User.create({
+      Username,
+      Password: hashedPassword,
+      Email,
+      Birthday,
+    });
+
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 // Require and import auth.js file passing the Express app as an argument
 let auth = require('./auth')(app);
 
 // Middleware for JWT authentication
-const jwtAuth = passport.authenticate('jwt', { session: false })
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // GET all movies (Protected route)
 app.get('/movies', async (req, res) => {
@@ -264,6 +262,60 @@ app.delete('/users/:Username', jwtAuth, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+app.put('/users/:id', jwtAuth, async (req, res) => {
+  try {
+      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!updatedUser) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(updatedUser);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
+// Update User Info (UPDATE)
+app.put('/users/:Username', [
+  check('Username', 'Username is required').isLength({ min: 5 }),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+  // check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
+
+  // Checking authentication
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
+  }
+
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+    $set:
+    {
+      Username: req.body.Username,
+      Password: hashedPassword,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+    { new: true })
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    })
+
 });
 
 // Start the server
