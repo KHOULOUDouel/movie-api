@@ -89,7 +89,7 @@ let auth = require('./auth')(app);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // GET all movies (Protected route)
-app.get('/movies', async (req, res) => {
+app.get('/movies', jwtAuth, async (req, res) => {
   try {
     const movies = await Movie.find();
     res.json(movies);
