@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 // Connect to MongoDB database
 const dbURI = process.env.DATABASE_URI || 'mongodb+srv://khouloudouelhazi24:Khouloud14@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster';
 
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -46,8 +46,6 @@ app.use(cors({
         return callback(null, true);
     }
 }));
-
-
 
 // POST route for user registration with data validation
 app.post('/users', [
@@ -89,8 +87,6 @@ app.post('/users', [
         res.status(400).json({ error: err.message });
     }
 });
-
-
 
 // GET all movies (Protected route)
 app.get('/movies', jwtAuth, async (req, res) => {
