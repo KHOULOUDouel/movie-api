@@ -27,6 +27,11 @@ db.once('open', function () {
     console.log('Connected to MongoDB Atlas');
 });
 
+// Define a route for the root URL
+app.get('/', (req, res) => {
+    res.send('Welcome to the MyFlix API!');
+});
+
 // Require and import auth.js file passing the Express app as an argument
 let auth = require('./auth')(app);
 
