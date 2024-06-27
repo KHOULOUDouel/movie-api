@@ -13,11 +13,10 @@ const { User, Movie } = models;
 
 const app = express();
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
-// Connect to MongoDB database
-const dbURI = process.env.DATABASE_URI || 'mongodb+srv://khouloudouelhazi24:8cU07W0WrRkGHXSc@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster';
-
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB database using environment variable for the URI
+mongoose.connect(process.env.CONNECTION_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -33,7 +32,7 @@ app.get('/', (req, res) => {
 });
 
 // Require and import auth.js file passing the Express app as an argument
-let auth = require('./auth')(app);
+require('./auth')(app);
 
 // Middleware for JWT authentication
 const jwtAuth = passport.authenticate('jwt', { session: false });
@@ -54,16 +53,9 @@ app.use(cors({
 
 // POST route for user registration with data validation
 app.post('/users', [
-    // Validate username
     body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
-
-    // Validate password
     body('Password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-
-    // Validate email
     body('Email').isEmail().withMessage('Invalid email'),
-
-    // Validate birthday
     body('Birthday').isISO8601().withMessage('Invalid date format (YYYY-MM-DD)'),
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -71,7 +63,6 @@ app.post('/users', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // If validation passes, proceed with user creation
     const { Username, Password, Email, Birthday } = req.body;
     try {
         const existingUser = await User.findOne({ Username });
@@ -128,13 +119,12 @@ app.get('/movies/genre/:Name', jwtAuth, async (req, res) => {
             const genre = {
                 Name: movie.Genre.Name,
                 Description: movie.Genre.Description
-            }
+            };
             return res.json(genre);
         } else {
             res.status(404).json({ message: 'Genre not found' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -156,7 +146,6 @@ app.get('/movies/director/:Name', jwtAuth, async (req, res) => {
             res.status(404).json({ message: 'Director not found' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -171,30 +160,6 @@ app.get('/users', jwtAuth, async (req, res) => {
     }
 });
 
-// POST a new user
-app.post('/users', async (req, res) => {
-    const { Username, Password, Email, Birthday } = req.body;
-    try {
-        const user = await User.findOne({ Username });
-
-        if (user) {
-            return res.status(400).json({ message: Username + ' already exists' });
-        }
-
-        const hashedPassword = User.hashPassword(Password);
-        const newUser = await User.create({
-            Username,
-            Password: hashedPassword,
-            Email,
-            Birthday,
-        });
-
-        res.status(201).json(newUser);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-});
-
 // GET a user by username
 app.get('/users/:Username', jwtAuth, async (req, res) => {
     try {
@@ -205,7 +170,6 @@ app.get('/users/:Username', jwtAuth, async (req, res) => {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -255,27 +219,26 @@ app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
 // UPDATE route to update a user
 app.put('/users/:Username', jwtAuth, async (req, res) => {
     try {
-        const updatedUser = await User.findOneAndUpdate({ Username: req.params.Username },
+        const updatedUser = await User.findOneAndUpdate(
+            { Username: req.params.Username },
             {
-                $set:
-                {
+                $set: {
                     Username: req.body.Username,
                     Password: req.body.Password,
                     Email: req.body.Email,
                     Birthday: req.body.Birthday,
                 }
             },
-            { new: true });
+            { new: true }
+        );
         if (updatedUser) {
             res.json(updatedUser);
         } else {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
-        console.error(error)
         res.status(500).json({ error: error.message });
     }
-
 });
 
 // DELETE route to deregister a user
