@@ -15,7 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Connect to MongoDB database
-const dbURI = process.env.DATABASE_URI || 'mongodb+srv://khouloudouelhazi24:Khouloud14@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster';
+const dbURI = process.env.DATABASE_URI || 'mongodb+srv://khouloudouelhazi24:8cU07W0WrRkGHXSc@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster';
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
