@@ -1,4 +1,7 @@
+require('dotenv').config(); // Load environment variables at the top
+
 const express = require('express');
+const uuid = require('uuid'); // Correct import for uuid
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { body, validationResult } = require('express-validator');
@@ -16,7 +19,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 // Connect to MongoDB database using environment variable for the URI
-mongoose.connect(process.env.CONNECTION_URI)
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -38,7 +41,7 @@ require('./auth')(app);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // CORS configuration allowing specific origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixmovies-72c1f6d2bace.herokuapp.com'];
 
 app.use(cors({
     origin: (origin, callback) => {
