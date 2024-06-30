@@ -41,7 +41,7 @@ require('./auth')(app);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // CORS configuration allowing specific origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixmovies-72c1f6d2bace.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://khouloud-movies-c211078f4ca4.herokuapp.com/'];
 
 app.use(cors({
     origin: (origin, callback) => {
