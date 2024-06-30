@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables at the top
 
 const express = require('express');
-const uuid = require('uuid'); // Correct import for uuid
+const uuid = require('uuid');  // Correct import for uuid
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { body, validationResult } = require('express-validator');
@@ -40,20 +40,10 @@ require('./auth')(app);
 // Middleware for JWT authentication
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-// CORS configuration allowing specific origins
-let allowedOrigins = '*';
-  
-  app.use(cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    }
-  }));
-  
+// CORS configuration allowing all origins
+app.use(cors({
+    origin: '*'
+}));
 
 // POST route for user registration with data validation
 app.post('/users', [
