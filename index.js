@@ -48,21 +48,8 @@ const allowedOrigins = [
     'https://khouloud-movies-c211078f4ca4.herokuapp.com'
 ];
 
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Credentials', true);
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    } else {
-        next();
-    }
-});
-
+app.use(cors())
+    
 // POST route for user registration with data validation
 app.post('/users', [
     body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
