@@ -45,10 +45,10 @@ const allowedOrigins = [
     'http://localhost:8080',
     'http://testsite.com',
     'http://localhost:1234',
-    'https://khouloud-movies-c211078f4ca4.herokuapp.com'
+    'https://app-flix.netlify.app'
 ];
 
-app.use(cors())
+app.use(cors());
     
 // POST route for user registration with data validation
 app.post('/users', [
