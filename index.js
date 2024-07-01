@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables at the top
 
 const express = require('express');
-const uuid = require('uuid');  // Correct import for uuid
+const { v4: uuidv4 } = require('uuid'); // Correct import for uuid
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { body, validationResult } = require('express-validator');
@@ -40,14 +40,22 @@ require('./auth')(app);
 // Middleware for JWT authentication
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-// CORS configuration allowing all origins
+// CORS configuration allowing specific origins
+const allowedOrigins = [
+    'http://localhost:8080',
+    'http://localhost:1234',
+    'https://khouloud-movies-c211078f4ca4.herokuapp.com'
+];
+
 app.use(cors({
-    origin: [
-        'http://localhost:8080',
-        'http://testsite.com',
-        'http://localhost:1234',
-        'https://khouloud-movies-c211078f4ca4.herokuapp.com'
-    ]
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
 }));
 
 // POST route for user registration with data validation
