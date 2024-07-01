@@ -42,7 +42,12 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // CORS configuration allowing all origins
 app.use(cors({
-    origin: '*'
+    origin: [
+        'http://localhost:8080',
+        'http://testsite.com',
+        'http://localhost:1234',
+        'https://khouloud-movies-c211078f4ca4.herokuapp.com'
+    ]
 }));
 
 // POST route for user registration with data validation
