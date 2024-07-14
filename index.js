@@ -217,19 +217,23 @@ app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
 
 // UPDATE route to update a user
 app.put('/users/:Username', jwtAuth, async (req, res) => {
+    const { Username } = req.params;
+    const { Password, Email, Birthday } = req.body;
+
+    let updatedFields = { Email, Birthday };
+
+    if (req.body.Password) {
+        const hashedPassword = await bcrypt.hash(Password, 10);
+        updatedFields.Password = hashedPassword;
+    }
+
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { Username: req.params.Username },
-            {
-                $set: {
-                    Username: req.body.Username,
-                    Password: req.body.Password,
-                    Email: req.body.Email,
-                    Birthday: req.body.Birthday,
-                }
-            },
+            { Username },
+            { $set: updatedFields },
             { new: true }
         );
+
         if (updatedUser) {
             res.json(updatedUser);
         } else {
@@ -239,7 +243,6 @@ app.put('/users/:Username', jwtAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 // DELETE route to deregister a user
 app.delete('/users/:Username', jwtAuth, async (req, res) => {
     const { Username } = req.params;
