@@ -12,15 +12,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('./passport');
 
-
 const { User, Movie } = models;
 
 const app = express();
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
-// Connect to MongoDB database using environment variable for the URI
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Set the MongoDB connection URI directly
+const CONNECTION_URI = "mongodb+srv://khouloudouelhazi24:8cU07W0WrRkGHXSc@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster";
+
+// Connect to MongoDB database using the direct URI
+mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -42,9 +44,8 @@ require('./auth')(app);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // Enable CORS for all origins by default
-const cors = require('cors');
 app.use(cors());
-    
+
 // POST route for user registration with data validation
 app.post('/users', [
     body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
@@ -238,6 +239,7 @@ app.put('/users/:Username', jwtAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 // DELETE route to deregister a user
 app.delete('/users/:Username', jwtAuth, async (req, res) => {
     const { Username } = req.params;
