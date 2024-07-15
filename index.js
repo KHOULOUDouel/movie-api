@@ -41,7 +41,7 @@ require('./auth')(app);
 // Middleware for JWT authentication
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-/// CORS configuration allowing specific origins
+// Enable CORS for all origins by default
 const cors = require('cors');
 app.use(cors());
     
