@@ -43,24 +43,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 /// CORS configuration allowing specific origins
 const cors = require('cors');
-let allowedOrigins = [
-    'http://localhost:8080',
-    'http://testsite.com',
-    'http://localhost:1234',
-    'https://app-flix.netlify.app',
-    'http://localhost:4200'
-];
-
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) { 
-            let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-            return callback(new Error(message), false);
-        }
-        return callback(null, true);
-    }
-}));
+app.use(cors());
     
 // POST route for user registration with data validation
 app.post('/users', [
