@@ -42,7 +42,6 @@ require('./auth')(app);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // Enable CORS for all origins by default
-const cors = require('cors');
 app.use(cors());
     
 // POST route for user registration with data validation
