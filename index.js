@@ -29,7 +29,10 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Connected to MongoDB Atlas');
 });
-
+// Enable CORS for all origins by default
+ app.use(cors()); 
+// Handle preflight requests 
+app.options('*', cors());
 // Define a route for the root URL
 app.get('/', (req, res) => {
     res.send('Welcome to the MyFlix API 2 !');
