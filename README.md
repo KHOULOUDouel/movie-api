@@ -1,5 +1,8 @@
 # Movie API Documentation
 
+## Repository
+- [GitHub](https://github.com/KHOULOUDouel/movie-api)
+
 ## Technologies Used
 - Node.js
 - Express.js
@@ -53,5 +56,3 @@
   "birthDate": { "$date": "1995-11-28T00:00:00.000Z" }, 
   "favoriteMovies": [ "Inception" ] 
 }
-
- You can find the code for this project at: https://github.com/KHOULOUDouel/movie-api
