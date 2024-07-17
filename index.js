@@ -18,8 +18,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
-// Connect to MongoDB database using environment variable for the URI
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// connet to mongo db 
+const connectionUri = "mongodb+srv://khouloudouelhazi24:8cU07W0WrRkGHXSc@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster";
+
+mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
