@@ -48,11 +48,4 @@
 - Method: POST
 - URL: `/users`
 - Request Body format: JSON
-```json
-{ 
-  "username": "eva_user", 
-  "password": "eva_secure_pass", 
-  "email": "eva@email.com", 
-  "birthDate": { "$date": "1995-11-28T00:00:00.000Z" }, 
-  "favoriteMovies": [ "Inception" ] 
-}
+
