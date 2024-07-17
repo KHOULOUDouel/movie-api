@@ -18,10 +18,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
-// connet to mongo db 
-const connectionUri = "mongodb+srv://khouloudouelhazi24:8cU07W0WrRkGHXSc@myflixcluster.7ekdmro.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixCluster";
-
-mongoose.connect(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB database using environment variable for the URI
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -33,21 +31,32 @@ db.once('open', function () {
 
 // Enable CORS for all origins by default
 app.use(cors());
-
-// Handle preflight requests 
+// Handle preflight requests
 app.options('*', cors());
-let auth = require('./auth')(app);
 
+// Define a route for the root URL
 /**
- * @fileoverview Entry point for the Movies API server.
- * @module myFlixAPI
+ * @function
+ * @name welcomeMessage
+ * @description Sends a welcome message.
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
  */
+app.get('/', (req, res) => {
+    res.send('Welcome to the MyFlix API 2!');
+});
+
+// Require and import auth.js file passing the Express app as an argument
+require('./auth')(app);
+
+// Middleware for JWT authentication
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // POST route for user registration with data validation
 /**
  * @function
  * @name createUser
- * @description Register a new user
+ * @description Registers a new user.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
@@ -87,11 +96,11 @@ app.post('/users', [
 /**
  * @function
  * @name getAllMovies
- * @description Get all movies
+ * @description Gets all movies.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', jwtAuth, async (req, res) => {
     try {
         const movies = await Movie.find();
         res.json(movies);
@@ -104,11 +113,11 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 /**
  * @function
  * @name getMovieByTitle
- * @description Get a movie by title
+ * @description Gets a movie by title.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/:Title', jwtAuth, async (req, res) => {
     const title = req.params.Title;
 
     try {
@@ -128,11 +137,11 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), asyn
 /**
  * @function
  * @name getGenreByName
- * @description Get genre by name
+ * @description Gets genre by name.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/movies/genre/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/genre/:Name', jwtAuth, async (req, res) => {
     try {
         const movie = await Movie.findOne({ 'Genre.Name': req.params.Name });
         if (movie && movie.Genre) {
@@ -153,11 +162,11 @@ app.get('/movies/genre/:Name', passport.authenticate('jwt', { session: false }),
 /**
  * @function
  * @name getDirectorByName
- * @description Get director by name
+ * @description Gets director by name.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/movies/director/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/director/:Name', jwtAuth, async (req, res) => {
     try {
         const movie = await Movie.findOne({ 'Director.Name': req.params.Name });
 
@@ -181,11 +190,11 @@ app.get('/movies/director/:Name', passport.authenticate('jwt', { session: false 
 /**
  * @function
  * @name getAllUsers
- * @description Get all users
+ * @description Gets all users.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/users', jwtAuth, async (req, res) => {
     try {
         const users = await User.find();
         res.json(users);
@@ -198,11 +207,11 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
 /**
  * @function
  * @name getUserByUsername
- * @description Get user by username
+ * @description Gets user by username.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/users/:Username', jwtAuth, async (req, res) => {
     try {
         const user = await User.findOne({ Username: req.params.Username });
         if (user) {
@@ -219,11 +228,11 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 /**
  * @function
  * @name addFavoriteMovie
- * @description Add a movie to user's favorites
+ * @description Adds a movie to user's favorites.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -247,11 +256,11 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 /**
  * @function
  * @name removeFavoriteMovie
- * @description Remove a movie from user's favorites
+ * @description Removes a movie from user's favorites.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -275,11 +284,11 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 /**
  * @function
  * @name updateUser
- * @description Update user information
+ * @description Updates user information.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', jwtAuth, async (req, res) => {
     const { Username } = req.params;
     const { Password, Email, Birthday } = req.body;
 
@@ -311,11 +320,11 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 /**
  * @function
  * @name deleteUser
- * @description Deregister a user
+ * @description Deregisters a user.
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  */
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username', jwtAuth, async (req, res) => {
     const { Username } = req.params;
 
     try {
@@ -335,7 +344,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 /**
  * @function
  * @name startServer
- * @description Start the server
+ * @description Starts the server.
  */
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
