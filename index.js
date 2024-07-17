@@ -12,7 +12,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('./passport');
 
-
 const { User, Movie } = models;
 
 const app = express();
@@ -29,25 +28,26 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Connected to MongoDB Atlas');
 });
+
 // Enable CORS for all origins by default
- app.use(cors()); 
+app.use(cors());
+
 // Handle preflight requests 
 app.options('*', cors());
-// Define a route for the root URL
-app.get('/', (req, res) => {
-    res.send('Welcome to the MyFlix API 2 !');
-});
 
-// Require and import auth.js file passing the Express app as an argument
-require('./auth')(app);
+/**
+ * @fileoverview myFlix API Documentation
+ * @module movie-api
+ */
 
-// Middleware for JWT authentication
-const jwtAuth = passport.authenticate('jwt', { session: false });
-
-// Enable CORS for all origins by default
- //app.use(cors());
-    
 // POST route for user registration with data validation
+/**
+ * @function
+ * @name createUser
+ * @description Register a new user
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
 app.post('/users', [
     body('Username').isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
     body('Password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
@@ -81,7 +81,14 @@ app.post('/users', [
 });
 
 // GET all movies (Protected route)
-app.get('/movies', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getAllMovies
+ * @description Get all movies
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const movies = await Movie.find();
         res.json(movies);
@@ -91,7 +98,14 @@ app.get('/movies', jwtAuth, async (req, res) => {
 });
 
 // GET a single movie by title
-app.get('/movies/:Title', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getMovieByTitle
+ * @description Get a movie by title
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const title = req.params.Title;
 
     try {
@@ -108,7 +122,14 @@ app.get('/movies/:Title', jwtAuth, async (req, res) => {
 });
 
 // GET data about a Genre by name
-app.get('/movies/genre/:Name', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getGenreByName
+ * @description Get genre by name
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/movies/genre/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const movie = await Movie.findOne({ 'Genre.Name': req.params.Name });
         if (movie && movie.Genre) {
@@ -126,7 +147,14 @@ app.get('/movies/genre/:Name', jwtAuth, async (req, res) => {
 });
 
 // GET data about a director by name
-app.get('/movies/director/:Name', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getDirectorByName
+ * @description Get director by name
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/movies/director/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const movie = await Movie.findOne({ 'Director.Name': req.params.Name });
 
@@ -147,7 +175,14 @@ app.get('/movies/director/:Name', jwtAuth, async (req, res) => {
 });
 
 // GET all users
-app.get('/users', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getAllUsers
+ * @description Get all users
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const users = await User.find();
         res.json(users);
@@ -157,7 +192,14 @@ app.get('/users', jwtAuth, async (req, res) => {
 });
 
 // GET a user by username
-app.get('/users/:Username', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name getUserByUsername
+ * @description Get user by username
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const user = await User.findOne({ Username: req.params.Username });
         if (user) {
@@ -171,7 +213,14 @@ app.get('/users/:Username', jwtAuth, async (req, res) => {
 });
 
 // POST route to add a movie to user's favorites
-app.post('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name addFavoriteMovie
+ * @description Add a movie to user's favorites
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -192,7 +241,14 @@ app.post('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
 });
 
 // DELETE route to remove a movie from user's favorites
-app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name removeFavoriteMovie
+ * @description Remove a movie from user's favorites
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { Username, MovieID } = req.params;
 
     try {
@@ -213,7 +269,14 @@ app.delete('/users/:Username/movies/:MovieID', jwtAuth, async (req, res) => {
 });
 
 // UPDATE route to update a user
-app.put('/users/:Username', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name updateUser
+ * @description Update user information
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { Username } = req.params;
     const { Password, Email, Birthday } = req.body;
 
@@ -240,8 +303,16 @@ app.put('/users/:Username', jwtAuth, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 // DELETE route to deregister a user
-app.delete('/users/:Username', jwtAuth, async (req, res) => {
+/**
+ * @function
+ * @name deleteUser
+ * @description Deregister a user
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ */
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const { Username } = req.params;
 
     try {
