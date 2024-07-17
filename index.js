@@ -34,6 +34,7 @@ app.use(cors());
 
 // Handle preflight requests 
 app.options('*', cors());
+let auth = require('./auth')(app);
 
 /**
  * @fileoverview Entry point for the Movies API server.
